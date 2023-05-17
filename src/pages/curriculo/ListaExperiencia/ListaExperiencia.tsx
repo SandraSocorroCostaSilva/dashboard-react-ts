@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-import styles from "./listaExperiencia.module.css";
+import styles from "./ListaExperiencia.module.css";
 
 import {deleteExperiencia, Experiencia, getExperiencias } from "../../../services/experienciaService";
 
