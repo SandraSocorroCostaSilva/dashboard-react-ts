@@ -8,31 +8,31 @@ export interface Portifolio {
 }
 
 export const createPortifolio = async (portifolio: Portifolio)  => {
-    const response = await api.post("/portifolio", portifolio);
+    const response = await api.post("/portfolio", portifolio);
     return response.data;
     
 };
 
 export const getPortifolio = async ()  => {
-    const response = await api.get("/portifolio");
+    const response = await api.get("/portfolio");
     return response.data;
     
 };
 
 export const getPortifolioById = async (id:number) => {
-    const response = await api.get(`/portifolio/${id}`);
+    const response = await api.get(`/portfolio/${id}`);
     return response.data;
     
 };
 
 export const updatePortifolio = async (portifolio: Portifolio) => {
-    const response = await api.put(`/portifolio/${portifolio.id}`, portifolio);
+    const response = await api.put(`/portfolio/${portifolio.id}`, portifolio);
     return response.data;
     
 };
 
 export const deletePortifolio = async (id:number)  => {
-    const response = await api.delete(`/portifolio/${id}`);
+    const response = await api.delete(`/portfolio/${id}`);
     return response.data;
     
 };
