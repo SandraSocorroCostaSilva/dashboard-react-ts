@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const apiUrl =import.meta.env.VITE_API_URL;
+
 const api = axios.create({
-    baseURL: 'https://server-json-sch2.onrender.com',
+    baseURL: apiUrl,
 
 });
 export default api;

@@ -1,90 +1,80 @@
 import React from "react";
 
- 
-//import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
+
 import styles from "./Login.module.css";
 
+import Form from "../../components/forms/Form";
 import Input from "../../components/forms/input";
-import { useNavigate } from "react-router-dom";
-import {login as loginService} from "../../services/authService";
-import { useAuth } from "../../contexts/AuthContext";
-
-import  Form  from "../../components/forms/Form";
 import Button from "../../components/common/Button";
 import Title from "../../components/common/Title";
 
-interface LoginValues {
-     email: string;
-     password: string;
-}
+import { User, login as loginService } from "../../services/authService";
 
-const initialValues: LoginValues = {
-      email: "",
-      password: "",
-};
+import { useAuth } from "../../contexts/AuthContext";
 
-const validationSchema = Yup.object().shape({
+const Login = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+  const initialValues: User = {
+    email: "",
+    password: "",
+  };
+
+  const validationSchema = Yup.object().shape({
     email: Yup.string()
-        .email("E-mail invalido")
-        .required("E-mail é obrigatório"),
+      .email("E_mail inválido")
+      .required("E_mail é obrigatorio"),
     password: Yup.string()
-        .min(6, "A senha deve ter pelo menos 6 carcteres")
-        .required("Senha é obrigatória"),
-});
+      .min(6, "A senha deve ter pelo menos 6 caracteres")
+      .required("Senha é obrigatória"),
+  });
 
-    const Login = () => {
-        const navigate = useNavigate();
-        const { login } = useAuth();
-        const onSubmit = async (values: LoginValues) =>{
-           try {
-         const user = await loginService(values.email, values.password);
-               login(user);
-               navigate("/");
-               console.log(values);
-           } catch (error) {
-               console.log(error);
-               alert("Erro ao realizar login");
-            }
-        };
-            return (
-                   
-         <div className={styles.loginWrapper}>
-       
-          <Form
-                   initialValues={initialValues}
-                   validationSchema={validationSchema}
-                   onSubmit={onSubmit}
-           >
-               {({ errors, touched}) => (
-                   <>
-                   
-                   <Title>MEU SITE PESSOAL</Title>
-                  
-                  <Input
-                          label="Email"
-                          name="email"
-                          type="email"
-                          errors={errors.email}
-                          touched={touched.email}
-                      />
-                  
-                                                                                     
-                  <Input
-                        label="Password"
-                        name="password"
-                        type="password"
-                        errors={errors.password}
-                        touched={touched.password}
-                    />
-                     
-                     <Button type="submit">Entrar</Button>
-                     </>
-             )}
-          </Form>
-    
-        </div>
-    );
+  const onSubmit = async (values: User) => {
+    try {
+      const user = await loginService(values);
+      login(user);
+      navigate("/");
+    } catch (error) {
+      alert("Erro ao realizar login!");
+    }
+  };
+
+  return (
+    <div className={styles.loginWrapper}>
+      <Form
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        {({ errors, touched }) => (
+          <>
+            <Title>MEU SITE PESSOAL</Title>
+
+            <Input
+              label="Email"
+              name="email"
+              type="email"
+              errors={errors.email}
+              touched={touched.email}
+            />
+
+            <Input
+              label="Password"
+              name="password"
+              type="password"
+              errors={errors.password}
+              touched={touched.password}
+            />
+
+            <Button type="submit">Login</Button>
+          </>
+        )}
+      </Form>
+    </div>
+  );
 };
 
 export default Login;
